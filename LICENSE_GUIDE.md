@@ -27,9 +27,8 @@ docs, tools, reports, courses, or products.
 
 Recommended credit:
 
-```txt
-Uses THC Methodology, created by Steven Pajewski / Vel Labs.
-```
+Uses THC Methodology, created by [@velcrafting](https://github.com/velcrafting)
+/ Vel Labs.
 
 Short credit:
 
@@ -38,7 +37,8 @@ Based on THC Methodology.
 ```
 
 Credit should not imply endorsement, certification, approval, or review by
-Steven Pajewski or Vel Labs unless that review actually happened.
+[@velcrafting](https://github.com/velcrafting) or Vel Labs unless that review
+actually happened.
 
 ## Public Claims
 

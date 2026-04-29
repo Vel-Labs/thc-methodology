@@ -2,7 +2,7 @@
 
 **Status:** Public Draft  
 **Version:** 0.2.0  
-**Author:** Steven Pajewski / @velcrafting  
+**Author:** @velcrafting / Vel Labs  
 **Maintainer:** Vel Labs
 
 ## One-Sentence Thesis

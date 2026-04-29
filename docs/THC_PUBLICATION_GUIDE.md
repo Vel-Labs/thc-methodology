@@ -13,7 +13,7 @@ Vel-Labs/thc-methodology
 ```txt
 Version: 0.2.0
 Status: Public Draft
-Author: Steven Pajewski / @velcrafting
+Author: @velcrafting / Vel Labs
 Maintainer: Vel Labs
 ```
 

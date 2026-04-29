@@ -2,7 +2,7 @@
 
 **Status:** Public Draft  
 **Version:** 0.2.0  
-**Author:** Steven Pajewski / [@velcrafting](https://github.com/velcrafting)  
+**Author:** [@velcrafting](https://github.com/velcrafting) / Vel Labs  
 **Maintainer:** Vel Labs / [@Velcrafting on X](https://x.com/Velcrafting)  
 **License:** MIT. Credit appreciated where practical.
 
@@ -124,11 +124,10 @@ See [`docs/THC_LEADERBOARD.md`](docs/THC_LEADERBOARD.md).
 
 THC Methodology is licensed under the MIT License.
 
-Credit is appreciated where practical:
+Credit is appreciated where practical.
 
-```txt
-Uses THC Methodology, created by [@velcrafting](https://github.com/velcrafting) / Vel Labs.
-```
+Suggested credit: Uses THC Methodology, created by
+[@velcrafting](https://github.com/velcrafting) / Vel Labs.
 
 Credit should not imply endorsement, certification, approval, or review unless
 that review actually happened.
