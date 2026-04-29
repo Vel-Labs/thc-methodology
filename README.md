@@ -127,7 +127,7 @@ THC Methodology is licensed under the MIT License.
 Credit is appreciated where practical:
 
 ```txt
-Uses THC Methodology, created by Steven Pajewski / Vel Labs.
+Uses THC Methodology, created by [@velcrafting](https://github.com/velcrafting) / Vel Labs.
 ```
 
 Credit should not imply endorsement, certification, approval, or review unless
