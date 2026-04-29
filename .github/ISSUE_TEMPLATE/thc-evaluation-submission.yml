@@ -1,0 +1,106 @@
+name: THC Evaluation Submission
+description: Submit a project for THC review or self-assessment.
+title: "[Evaluation]: "
+labels:
+  - evaluation
+  - thc-level
+body:
+  - type: input
+    id: project-name
+    attributes:
+      label: Project name
+      description: Name of the project being submitted.
+    validations:
+      required: true
+
+  - type: input
+    id: repository
+    attributes:
+      label: Repository
+      description: Link to the project repository.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: requested-level
+    attributes:
+      label: Requested THC Level
+      options:
+        - THC-0 Unverified
+        - THC-1 Documented
+        - THC-2 Hardened
+        - THC-3 Inspectable
+        - THC-4 Reproducible
+        - THC-5 High-THC
+    validations:
+      required: true
+
+  - type: dropdown
+    id: review-label
+    attributes:
+      label: Review label requested
+      options:
+        - Local THC Check
+        - Self-Assessed
+        - Automated Public Review
+        - Peer Reviewed
+        - Maintainer Reviewed
+        - Vel Labs Reviewed
+    validations:
+      required: true
+
+  - type: textarea
+    id: project-summary
+    attributes:
+      label: Project summary
+      description: What does this project do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: truth-evidence
+    attributes:
+      label: Truth evidence
+      description: Source-of-truth docs, assumptions, architecture, boundaries, known unknowns.
+    validations:
+      required: true
+
+  - type: textarea
+    id: hardening-evidence
+    attributes:
+      label: Hardening evidence
+      description: Tests, validation, CI/CD, failure-mode handling, configuration checks.
+    validations:
+      required: true
+
+  - type: textarea
+    id: clarity-evidence
+    attributes:
+      label: Clarity evidence
+      description: Setup, contributor guidance, operator docs, recovery docs, examples, agent instructions.
+    validations:
+      required: true
+
+  - type: textarea
+    id: hidden-trust
+    attributes:
+      label: Hidden trust still present
+      description: What still requires insider knowledge?
+    validations:
+      required: true
+
+  - type: textarea
+    id: local-check
+    attributes:
+      label: Local THC check
+      description: If a local THC check exists, link it and name what public reviewers should verify independently.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: Acknowledgement
+      options:
+        - label: I understand that THC Level is a review artifact, not certification or guarantee.
+          required: true
