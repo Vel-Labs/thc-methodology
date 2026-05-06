@@ -303,7 +303,7 @@
     const link = (label, href) => href ? `<a class="badge" href="${escapeHtml(href)}">${escapeHtml(label)}</a>` : '';
 
     document.getElementById('latestLevel').textContent = text(latest.recommendedLevel);
-    document.getElementById('latestScore').textContent = latest.totalScore === undefined ? '--' : String(latest.totalScore);
+    document.getElementById('latestScore').textContent = Number.isFinite(Number(latest.totalScore)) ? String(latest.totalScore) : '--';
     document.getElementById('latestRevision').textContent = `Revision: ${text(latest.reviewedRevision)}`;
     document.getElementById('latestConfidence').textContent = `Confidence: ${text(latest.confidence)}`;
     document.getElementById('publicReadiness').textContent = text(latest.publicReadiness);
@@ -321,13 +321,14 @@
     ].filter(Boolean).join('') || '<p class="muted">No run links available.</p>';
 
     function renderScoreChart() {
-      if (!runs.length) return '<p class="muted">No runs available.</p>';
+      const scoredRuns = runs.filter((run) => Number.isFinite(Number(run.totalScore)));
+      if (!scoredRuns.length) return '<p class="muted">No scored runs available.</p>';
       const width = 760;
       const height = 240;
       const pad = 34;
-      const points = runs.map((run, index) => {
-        const score = Number(run.totalScore || 0);
-        const x = runs.length === 1 ? width / 2 : pad + (index * (width - pad * 2)) / (runs.length - 1);
+      const points = scoredRuns.map((run, index) => {
+        const score = Number(run.totalScore);
+        const x = scoredRuns.length === 1 ? width / 2 : pad + (index * (width - pad * 2)) / (scoredRuns.length - 1);
         const y = height - pad - (Math.max(0, Math.min(100, score)) * (height - pad * 2)) / 100;
         return { x, y, score, label: run.generatedAt || run.runId || `Run ${index + 1}` };
       });

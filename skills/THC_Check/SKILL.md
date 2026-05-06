@@ -8,6 +8,10 @@ description: "Run a local THC preparation audit and produce a Local THC Check su
 Use this skill when a user wants to locally evaluate a project against THC
 Methodology before publishing, submitting, or requesting an independent review.
 
+Also use this skill by default when a user asks to audit a local repository
+using THC Methodology, unless they explicitly ask for a read-only audit, spot
+check, or no generated artifacts.
+
 ## Goal
 
 Produce a local THC check that helps a project prepare for public review, plus
@@ -15,6 +19,22 @@ a structured THC-BOT benchmark package for the reviewed revision.
 
 The output is a preparation artifact, not certification and not an independent
 public score.
+
+## Scripts
+
+Prefer the local scripts before hand-building artifacts:
+
+```txt
+skills/THC_Check/scripts/scaffold-thc-bot-run.js
+skills/THC_Check/scripts/validate-thc-bot.js
+```
+
+Use the scaffold script to create the run folder, starter contract, provenance,
+slices, history file, and ledger.
+
+Use the validator before reporting completion. A failed validator means the
+THC-BOT package is partial or invalid until the listed issues are resolved or
+recorded with explicit unavailable reasons.
 
 ## Required Artifact Path
 
@@ -256,14 +276,15 @@ Accept any of:
 9. Identify hidden-trust findings.
 10. Produce a local THC score and confidence.
 11. List what evidence would be useful for a public review.
-12. Create a run ID using date, project slug, contract version, and short revision.
-13. Write the executive summary to `docs/thc/LOCAL_CHECK.md`.
-14. Write or update the run ledger at `docs/thc/THC-BOT.md`.
-15. Write or update `docs/thc/THC-BOT.history.json`.
-16. Write the run report to `docs/thc/runs/<run-id>/THC-BOT.md`.
-17. Write `docs/thc/runs/<run-id>/THC-BOT.contract.json`.
-18. Write `docs/thc/runs/<run-id>/THC-BOT.provenance.json`.
-19. Write the required `docs/thc/runs/<run-id>/slices/*.json` files.
+12. Run `skills/THC_Check/scripts/scaffold-thc-bot-run.js` to create the run.
+13. Complete `docs/thc/LOCAL_CHECK.md`.
+14. Complete the run report at `docs/thc/runs/<run-id>/THC-BOT.md`.
+15. Complete `docs/thc/runs/<run-id>/THC-BOT.contract.json`.
+16. Complete `docs/thc/runs/<run-id>/THC-BOT.provenance.json`.
+17. Complete the required `docs/thc/runs/<run-id>/slices/*.json` files.
+18. Update `docs/thc/THC-BOT.md` and `docs/thc/THC-BOT.history.json` if the
+    completed score, confidence, or validation state changed after scaffolding.
+19. Run `skills/THC_Check/scripts/validate-thc-bot.js`.
 20. Ensure `docs/thc/README.md` explains the artifact contract and disclaimer.
 21. If requested, render `docs/thc/THC-BOT.html` using `THC_BOT_Visualizer`.
 22. Verify the only changed paths are under `docs/thc/`.
@@ -341,6 +362,8 @@ Validation State:
 - Write the run ledger to `docs/thc/THC-BOT.md`.
 - Write the history index to `docs/thc/THC-BOT.history.json`.
 - Write contract and provenance to the run folder.
+- Run `skills/THC_Check/scripts/validate-thc-bot.js` before reporting the
+  package complete.
 - Preserve `docs/thc/README.md` as the discovery and disclaimer file.
 - Attempt an artifact-only commit for `docs/thc/*` after generation.
 - Treat each run folder as immutable by convention.

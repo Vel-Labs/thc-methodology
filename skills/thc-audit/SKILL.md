@@ -2,6 +2,11 @@
 
 Use this skill to evaluate a project, repository, document set, workflow, or agentic coding system for hidden trust.
 
+For a local repository audit, prefer `skills/THC_Check/SKILL.md` unless the user
+explicitly asks for a read-only audit, spot check, or no generated artifacts.
+`THC_Check` is the full local workflow that creates Local THC Check and THC-BOT
+artifacts.
+
 ## Goal
 
 Produce a practical THC audit that identifies hidden trust and recommends a THC Level.

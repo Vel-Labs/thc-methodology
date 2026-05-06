@@ -102,6 +102,12 @@ When reviewing a project:
 - Reward clear ownership of sources of truth.
 - Reward known unknowns when they are honestly stated.
 
+When a user asks to audit a repository using THC Methodology, default to the
+full local THC Check workflow unless the user explicitly asks for a read-only,
+spot, or non-artifact review. The full local workflow should produce or update
+the Local THC Check summary, THC-BOT run artifacts, validation output, and the
+optional visualizer when requested.
+
 ## Output Expectations
 
 When producing a THC review, use:

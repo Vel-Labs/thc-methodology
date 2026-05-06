@@ -12,6 +12,11 @@ Added:
   THC-BOT run.
 - `skills/THC_BOT_Visualizer/` as an optional local HTML readout skill for
   existing THC-BOT artifacts.
+- skill-local scripts for scaffolding THC-BOT runs, validating THC-BOT
+  contracts, and rendering the optional HTML readout.
+- default agent routing for local repository THC audits to use the full
+  `THC_Check` and THC-BOT artifact workflow unless a read-only review is
+  requested.
 - leaderboard handshake validation guidance for treating THC-BOT artifacts as
   input, not public truth.
 - MIT license and attribution notice.

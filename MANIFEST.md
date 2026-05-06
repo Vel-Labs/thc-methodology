@@ -55,6 +55,8 @@ This repository is organized into layers.
 | `skills/thc-level-review/SKILL.md` | Agent skill for level scoring. |
 | `skills/THC_Check/SKILL.md` | Local THC preparation audit skill. |
 | `skills/THC_BOT_Visualizer/SKILL.md` | Optional local HTML readout skill for THC-BOT artifacts. |
+| `skills/THC_Check/scripts/` | Skill-local THC-BOT scaffold and validation scripts. |
+| `skills/THC_BOT_Visualizer/scripts/` | Skill-local THC-BOT HTML renderer script. |
 
 ## Examples
 

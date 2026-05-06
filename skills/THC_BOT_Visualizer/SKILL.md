@@ -35,6 +35,19 @@ docs/thc/THC-BOT.html
 
 Use `templates/thc-bot-visualizer.html` as the source template.
 
+Prefer the renderer script:
+
+```txt
+skills/THC_BOT_Visualizer/scripts/render-thc-bot.js
+```
+
+Run it from the methodology repository or call it with the target repository
+root:
+
+```txt
+node skills/THC_BOT_Visualizer/scripts/render-thc-bot.js /path/to/project
+```
+
 Embed the collected run data into the template as JSON inside:
 
 ```html
