@@ -128,6 +128,36 @@ When LLMs assist scoring, the review should expose the evidence, missing
 evidence, caps, rubric version, and uncertainty. The model's answer is not the
 source of truth; the inspected artifacts are.
 
+## THC-BOT Scorecard Use
+
+THC-BOT, the THC Benchmark Operating Test, uses this scorecard as a structured
+local benchmark input.
+
+It does not change THC Levels or level meanings.
+
+THC-BOT should expose the slices that support a score:
+
+- evidence
+- local artifacts
+- caps applied
+- hidden-trust findings
+- next actions
+- uncertainty
+- provenance
+
+The score is not truth. It is a recommendation derived from inspected evidence.
+
+Caps and hidden-trust findings matter more than the raw number. A project with a
+high score can still be capped if important trust remains hidden.
+
+A THC-4 score in the 80s should represent a strong project, not an easy default
+outcome. THC-BOT should make strictness visible by showing what evidence earned
+credit, what evidence was missing, which caps were applied, and what uncertainty
+still remains.
+
+If required THC-BOT contract fields are missing without explanation, the result
+is partial validation rather than a complete local score.
+
 ## Scoring Philosophy
 
 Do not reward volume.

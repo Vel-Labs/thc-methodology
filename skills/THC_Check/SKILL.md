@@ -1,6 +1,6 @@
 ---
 name: "THC_Check"
-description: "Run a local THC preparation audit for a repository and produce an evidence-backed local score, caps, hidden-trust findings, and public-review handoff notes."
+description: "Run a local THC preparation audit and produce a Local THC Check summary plus structured THC-BOT benchmark artifacts."
 ---
 
 # THC Check
@@ -10,7 +10,8 @@ Methodology before publishing, submitting, or requesting an independent review.
 
 ## Goal
 
-Produce a local THC check that helps a project prepare for public review.
+Produce a local THC check that helps a project prepare for public review, plus
+a structured THC-BOT benchmark package for the reviewed revision.
 
 The output is a preparation artifact, not certification and not an independent
 public score.
@@ -23,7 +24,21 @@ When run inside a repository, create or update:
 docs/thc/
   README.md
   LOCAL_CHECK.md
-  LOCAL_CHECK.provenance.json
+  THC-BOT.md
+  THC-BOT.history.json
+  runs/
+    <run-id>/
+      THC-BOT.md
+      THC-BOT.contract.json
+      THC-BOT.provenance.json
+      slices/
+        overview.json
+        evidence.json
+        local-artifacts.json
+        caps-applied.json
+        hidden-trust.json
+        next-actions.json
+        uncertainty.json
 ```
 
 If `docs/thc/README.md` does not exist, create it with this notice:
@@ -35,60 +50,127 @@ This folder stores THC Methodology review artifacts.
 
 Public reviewers and automated graders may inspect this folder first.
 
-Do not hand-edit generated THC check reports to improve the score. If the
-project changes, rerun the THC check and preserve the reviewed revision,
-timestamp, evidence, caps, and uncertainty.
+Do not hand-edit generated THC check or THC-BOT reports to improve the score.
+If the project changes, rerun the THC check and preserve the reviewed revision,
+timestamp, evidence, caps, uncertainty, and run history.
 
 Local THC checks are baseline preparation artifacts. Third-party or public
 review is preferred for public badges, leaderboard placement, and outside trust.
+
+THC-BOT artifacts are first-party local benchmark artifacts. Public reviewers
+may use them as a map to evidence, then independently verify the cited files.
 ```
+
+`docs/thc/LOCAL_CHECK.md` is the executive summary and readiness checklist.
+
+`docs/thc/THC-BOT.md` is the run ledger.
+
+Each `docs/thc/runs/<run-id>/` folder is one structured THC Benchmark Operating
+Test run for one reviewed revision.
 
 The stable path reduces discovery friction for future public review. A public
 grader may use it to find evidence faster, but it should still verify the cited
 files independently.
 
-## Provenance File
+## THC-BOT Contract And Provenance
 
-Also write `docs/thc/LOCAL_CHECK.provenance.json`.
+For each run, write `THC-BOT.contract.json` and `THC-BOT.provenance.json`.
 
-This file is tamper-evidence, not tamper-proof security. A repo owner can still
-edit local artifacts. The purpose is to make manual changes easier for public
-reviewers and automated graders to notice.
+These files are tamper-evidence, not tamper-proof security. A repo owner can
+still edit local artifacts. The purpose is to make manual changes easier for
+public reviewers and automated graders to notice.
 
-Recommended fields:
+Every required contract field must be answered with a concrete value, an
+explicit unavailable reason, or an explicit unknown state. Silent blanks produce
+partial validation, not a complete local score.
+
+Minimum contract shape:
+
+The empty strings below are placeholders for generated values. Do not leave
+them blank in a complete run.
 
 ```json
 {
-  "artifact_version": "1",
-  "review_label": "Local THC Check",
-  "generated_at": "",
-  "repository": "",
-  "reviewed_revision": "",
-  "precheck_worktree_clean": true,
-  "artifact_commit": "",
-  "rubric_version": "",
-  "skill_name": "THC_Check",
-  "skill_source": "",
-  "report_path": "docs/thc/LOCAL_CHECK.md",
-  "report_sha256": "",
-  "evidence": [
-    {
-      "path": "",
-      "sha256": "",
-      "notes": ""
+  "artifactKind": "THC-BOT",
+  "contractVersion": "0.1.0",
+  "rubricVersion": "",
+  "validationState": "Complete",
+  "project": {
+    "name": "",
+    "repositoryUrl": {
+      "value": null,
+      "status": "unknown",
+      "reason": "Not inspected yet."
+    },
+    "visibility": "unknown"
+  },
+  "reviewedRevision": {
+    "commitSha": {
+      "value": "",
+      "status": "provided",
+      "reason": ""
+    },
+    "generatedAt": "",
+    "worktreeState": "clean"
+  },
+  "review": {
+    "reviewLabel": "Local THC Check",
+    "recommendedLevel": "",
+    "totalScore": null,
+    "confidence": "low",
+    "capsApplied": []
+  },
+  "evidenceTable": [],
+  "hiddenTrustFindings": [],
+  "nextActions": [],
+  "uncertaintyNotes": [],
+  "provenance": {
+    "commandsRun": [],
+    "filesInspected": [],
+    "evidenceFileHashes": {},
+    "reportHash": "",
+    "contractHash": "",
+    "model": {
+      "value": null,
+      "status": "unavailable",
+      "reason": "Generated manually or model was not recorded."
+    },
+    "promptVersion": {
+      "value": "THC_Check",
+      "status": "provided",
+      "reason": ""
     }
-  ],
-  "commands_run": [],
-  "caps_applied": [],
-  "score": null,
-  "recommended_level": "",
-  "uncertainty": ""
+  }
 }
 ```
 
-A public grader should recompute the report hash, inspect the listed evidence
-files, and compare the reviewed revision against the public repository state.
-If the provenance file is missing, stale, inconsistent, or lacks a clean
+Minimum provenance shape:
+
+```json
+{
+  "artifactKind": "THC-BOT Provenance",
+  "contractVersion": "0.1.0",
+  "generatedAt": "",
+  "reviewedRevision": {
+    "commitSha": "",
+    "worktreeState": "clean"
+  },
+  "commandsRun": [],
+  "filesInspected": [],
+  "fileHashes": {},
+  "artifactHashes": {},
+  "unavailableFields": [
+    {
+      "field": "",
+      "reason": ""
+    }
+  ]
+}
+```
+
+A public grader should recompute hashes, inspect the listed evidence files, and
+compare the reviewed revision against the public repository state. If the
+contract or provenance file is missing, stale, inconsistent, or lacks a clean
 worktree precheck, the local check should receive lower confidence.
 
 ## Clean Worktree and Artifact Commit
@@ -109,16 +191,18 @@ This matters because the report needs a stable reviewed revision. If the review
 runs against uncommitted files, a public grader cannot cleanly verify what was
 actually reviewed.
 
-Generating `docs/thc/LOCAL_CHECK.md`,
-`docs/thc/LOCAL_CHECK.provenance.json`, and `docs/thc/README.md` will make the
-worktree dirty after the review. That is expected.
+Generating `docs/thc/LOCAL_CHECK.md`, `docs/thc/THC-BOT.md`,
+`docs/thc/THC-BOT.history.json`, and a new `docs/thc/runs/<run-id>/` folder
+will make the worktree dirty after the review. That is expected.
 
 After generation, attempt to commit only the THC artifacts:
 
 ```txt
 docs/thc/README.md
 docs/thc/LOCAL_CHECK.md
-docs/thc/LOCAL_CHECK.provenance.json
+docs/thc/THC-BOT.md
+docs/thc/THC-BOT.history.json
+docs/thc/runs/<run-id>/
 ```
 
 Use a message like:
@@ -165,13 +249,20 @@ Accept any of:
 9. Identify hidden-trust findings.
 10. Produce a local THC score and confidence.
 11. List what evidence would be useful for a public review.
-12. Write the report to `docs/thc/LOCAL_CHECK.md`.
-13. Write `docs/thc/LOCAL_CHECK.provenance.json` with hashes and review metadata.
-14. Ensure `docs/thc/README.md` explains the artifact contract and disclaimer.
-15. Verify the only changed paths are under `docs/thc/`.
-16. Commit only `docs/thc/README.md`, `docs/thc/LOCAL_CHECK.md`, and
-    `docs/thc/LOCAL_CHECK.provenance.json` with the standard message.
-17. Record the artifact commit SHA in the provenance file and report, or record
+12. Create a run ID using date, project slug, contract version, and short revision.
+13. Write the executive summary to `docs/thc/LOCAL_CHECK.md`.
+14. Write or update the run ledger at `docs/thc/THC-BOT.md`.
+15. Write or update `docs/thc/THC-BOT.history.json`.
+16. Write the run report to `docs/thc/runs/<run-id>/THC-BOT.md`.
+17. Write `docs/thc/runs/<run-id>/THC-BOT.contract.json`.
+18. Write `docs/thc/runs/<run-id>/THC-BOT.provenance.json`.
+19. Write the required `docs/thc/runs/<run-id>/slices/*.json` files.
+20. Ensure `docs/thc/README.md` explains the artifact contract and disclaimer.
+21. Verify the only changed paths are under `docs/thc/`.
+22. Commit only `docs/thc/README.md`, `docs/thc/LOCAL_CHECK.md`,
+    `docs/thc/THC-BOT.md`, `docs/thc/THC-BOT.history.json`, and
+    `docs/thc/runs/<run-id>/` with the standard message.
+23. Record the artifact commit SHA in the provenance file and report, or record
     why the commit could not be created.
 
 ## Output Format
@@ -186,7 +277,10 @@ Precheck Worktree Clean: Yes
 Generated At:
 Review Label: Local THC Check
 Rubric Version:
-Provenance: docs/thc/LOCAL_CHECK.provenance.json
+Latest THC-BOT Run:
+THC-BOT Ledger: docs/thc/THC-BOT.md
+Contract:
+Provenance:
 Artifact Commit:
 Confidence:
 
@@ -200,19 +294,20 @@ Confidence:
 Recommended Level:
 Total Score:
 Caps Applied:
+Validation State:
 
-## Evidence Table
+## Repo Readiness Checklist
 
-| Category | Evidence | Score | Notes |
-|---|---|---:|---|
-| Truth | | | |
-| Hardening | | | |
-| Clarity | | | |
-| Audit History | | | |
+- [ ] Source-of-truth files are explicit.
+- [ ] Setup path is inspectable.
+- [ ] Validation commands are visible.
+- [ ] Caps and hidden-trust findings are recorded.
+- [ ] Required THC-BOT fields are answered or explicitly unavailable.
+- [ ] Public evidence limits are stated.
 
-## Top Hidden Trust Findings
+## Latest THC-BOT Slices
 
-| Finding | Severity | Evidence | Recommendation |
+| Slice | File | Status | Summary |
 |---|---|---|---|
 | | | | |
 
@@ -232,10 +327,14 @@ Caps Applied:
 - Do not treat local LLM output as public truth.
 - Stop before scoring if the worktree is dirty.
 - Record the clean pre-generation `HEAD` as the reviewed revision.
-- Write the local report to `docs/thc/LOCAL_CHECK.md`.
-- Write provenance to `docs/thc/LOCAL_CHECK.provenance.json`.
+- Write the executive summary to `docs/thc/LOCAL_CHECK.md`.
+- Write the structured THC-BOT package under `docs/thc/runs/<run-id>/`.
+- Write the run ledger to `docs/thc/THC-BOT.md`.
+- Write the history index to `docs/thc/THC-BOT.history.json`.
+- Write contract and provenance to the run folder.
 - Preserve `docs/thc/README.md` as the discovery and disclaimer file.
 - Attempt an artifact-only commit for `docs/thc/*` after generation.
+- Treat each run folder as immutable by convention.
 - Do not include unrelated paths in the artifact commit.
 - If the artifact commit cannot be created, report why and leave the artifacts
   for the operator to review.

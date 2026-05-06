@@ -18,6 +18,7 @@ score to an independently inspected revision and a visible report.
 | Review Type | Meaning | Trust Boundary |
 |---|---|---|
 | Local THC Check | A maintainer or agent reviews the project locally. | Depends on the local prompt, model, files, and operator. |
+| THC-BOT | A structured local THC Benchmark Operating Test package records one benchmark run. | First-party artifact package. Useful input, not public truth. |
 | Self-Assessed | Maintainers publish their own THC evaluation. | Depends on maintainer honesty and visible evidence. |
 | Peer Reviewed | Someone outside the project reviews the evidence. | Depends on reviewer independence and scope. |
 | Automated Public Review | A public service inspects the repository and generates a report. | Depends on the service rules, model, and captured evidence. |
@@ -50,14 +51,45 @@ Projects using `THC_Check` should store local review artifacts at:
 docs/thc/
   README.md
   LOCAL_CHECK.md
-  LOCAL_CHECK.provenance.json
+  THC-BOT.md
+  THC-BOT.history.json
+  runs/
+    2026-05-05_project_0.1.0_abc1234/
+      THC-BOT.md
+      THC-BOT.contract.json
+      THC-BOT.provenance.json
+      slices/
+        overview.json
+        evidence.json
+        local-artifacts.json
+        caps-applied.json
+        hidden-trust.json
+        next-actions.json
+        uncertainty.json
 ```
 
-`docs/thc/LOCAL_CHECK.md` is the standard local report path.
+`docs/thc/LOCAL_CHECK.md` is the standard local executive summary path.
 
-`docs/thc/LOCAL_CHECK.provenance.json` should record the reviewed revision,
-clean-worktree precheck, generation time, report hash, evidence file hashes,
-commands run, rubric version, caps applied, score, artifact commit if one
+It should summarize the latest local posture, point to the latest THC-BOT run,
+and list repo readiness items that block a meaningful score or public review.
+
+THC-BOT is the recommended structured local benchmark package.
+
+The root `docs/thc/THC-BOT.md` should act as a run ledger. Each row should
+summarize one test run by date, contract version, reviewed revision, slice
+status, confidence, and public-readiness status.
+
+Each folder under `docs/thc/runs/` should contain one benchmark run. The run is
+the structured scoring source for that reviewed revision.
+
+`THC-BOT.contract.json` should record the required scoring fields. Every
+required field must be answered with a value, an explicit unavailable reason,
+or an explicit unknown state. Missing fields produce partial validation, not a
+complete score.
+
+`THC-BOT.provenance.json` should record the reviewed revision, clean-worktree
+precheck, generation time, report hash, evidence file hashes, commands run,
+rubric version, contract version, caps applied, score, artifact commit if one
 exists, and uncertainty.
 
 `docs/thc/README.md` should explain that the folder is for THC review artifacts
@@ -68,6 +100,9 @@ level caps, and uncertainty remain inspectable.
 This convention lets public reviewers and automated graders discover local THC
 evidence quickly. The local report remains input, not truth. Public graders
 should independently verify cited files against the reviewed revision.
+
+See `docs/THC_BOT.md` and `docs/THC_BOT_CONTRACT.md` for the canonical
+THC-BOT contract.
 
 ## Tamper Evidence
 
@@ -83,8 +118,10 @@ Use visible provenance instead:
 - clean-worktree precheck
 - generated timestamp
 - rubric version
+- contract version
 - skill source or version
 - report hash
+- contract hash when practical
 - evidence file hashes
 - commands run
 - caps applied
@@ -105,16 +142,16 @@ docs(thc): add local THC check for <reviewed_revision>
 That commit is useful for discovery, but the score should still be verified
 against the recorded reviewed revision.
 
-This gives local THC checks a simple history model: each run creates a small
-artifact commit, and later changes to score, caps, evidence, or uncertainty are
-visible in normal git history.
+This gives local THC checks a simple history model: each THC-BOT run creates a
+small artifact commit, and later changes to score, caps, evidence, or
+uncertainty are visible in normal git history.
 
 If unrelated files change during generation, the artifact commit should fail
 closed instead of mixing project changes with review artifacts.
 
 For public claims, the preferred defense is independent review: rerun the grader
 against the public repository revision, recompute hashes, and treat the local
-report as a map to evidence rather than as the score source.
+THC-BOT package as a map to evidence rather than as the score source.
 
 ## Public THC Score
 
@@ -160,22 +197,32 @@ trust the model.
 
 ## Local-to-Public Handoff
 
-A local THC check may speed up public scoring if it is submitted as evidence.
+A local THC check and THC-BOT package may speed up public scoring if they are
+submitted as evidence.
 
-The public grader should treat it as input, not truth.
+The public grader should treat them as input, not truth.
 
 Good use:
 
 ```txt
-The project submitted a local THC check. The public grader used it to find
+The project submitted a THC-BOT package. The public grader used it to find
 evidence faster, then independently verified the cited files at commit abc123.
 ```
 
 Weak use:
 
 ```txt
-The project submitted a local THC check, so the public score reused it.
+The project submitted a THC-BOT package, so the public score reused it.
 ```
+
+If THC-BOT artifacts are missing, public tooling should perform a full audit.
+
+If THC-BOT artifacts are present and valid, public tooling should use them as a
+map and second-opinion target, then independently verify the evidence, caps,
+hidden-trust findings, and reviewed revision.
+
+If THC-BOT artifacts are stale, inconsistent, incomplete, or unverifiable,
+public tooling should flag the mismatch and lower confidence.
 
 ## Leaderboard Rule
 

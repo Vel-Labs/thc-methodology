@@ -54,6 +54,49 @@ A leaderboard entry should include:
 If these are missing, the entry should be treated as a claim, not a leaderboard
 score.
 
+## THC-BOT Handshake
+
+THC-BOT means THC Benchmark Operating Test.
+
+It is a structured local benchmark package. It can help a public grader find
+evidence faster, but it is not public truth.
+
+Leaderboard tooling should use this intake model:
+
+| Project State | Leaderboard Behavior |
+|---|---|
+| Public repo with no THC-BOT artifacts | Perform a full public audit. |
+| Public repo with valid THC-BOT artifacts | Use the artifacts as a handshake map, then independently verify cited evidence. |
+| Public repo with stale or invalid THC-BOT artifacts | Use as hints only, flag the mismatch, and reduce confidence. |
+| Private or internal repo | Use THC-BOT locally only unless the evidence needed for the public claim is publicly inspectable. |
+
+Valid THC-BOT artifacts should include:
+
+- reviewed revision
+- contract version
+- rubric version
+- evidence slice
+- local-artifacts slice
+- caps-applied slice
+- hidden-trust slice
+- next-actions slice
+- uncertainty slice
+- provenance file
+- root run history or a clear run path
+
+Even when these artifacts are present, the leaderboard should independently
+verify:
+
+- cited evidence
+- reviewed revision
+- caps
+- hidden-trust findings
+- worktree or repository state
+- whether public evidence supports the public score
+
+The public score should come from verified public evidence, not from the local
+THC-BOT score.
+
 ## Automated Grading
 
 An automated grader may inspect:
@@ -85,6 +128,9 @@ Do not let a leaderboard entry imply:
 
 Do not accept a project-supplied score as public truth without independent
 inspection.
+
+Do not accept THC-BOT artifacts as leaderboard proof without independent
+verification.
 
 Do not rely on hidden anti-tamper markers. Leaderboard trust should come from
 public provenance, reviewed commits, recomputed evidence, and independent

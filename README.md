@@ -61,7 +61,10 @@ THC can be used for:
 | [`docs/THC_EVALUATION_LENS.md`](docs/THC_EVALUATION_LENS.md) | Project-agnostic audit lens. |
 | [`docs/THC_LEVELS.md`](docs/THC_LEVELS.md) | Qualitative THC level breakdown. |
 | [`docs/THC_SCORECARD.md`](docs/THC_SCORECARD.md) | Scoring rubric for self-assessment and peer review. |
+| [`docs/THC_BOT.md`](docs/THC_BOT.md) | Structured local benchmark artifact package. |
+| [`docs/THC_BOT_CONTRACT.md`](docs/THC_BOT_CONTRACT.md) | Human-readable THC-BOT artifact contract. |
 | [`templates/thc-audit-report.md`](templates/thc-audit-report.md) | Lightweight audit report template. |
+| [`templates/thc-bot-report.md`](templates/thc-bot-report.md) | THC-BOT run report template. |
 | [`templates/thc-evaluation-submission.md`](templates/thc-evaluation-submission.md) | Submission template for project evaluations. |
 | [`docs/THC_LOCAL_AND_PUBLIC_REVIEW.md`](docs/THC_LOCAL_AND_PUBLIC_REVIEW.md) | Local checks, public scores, and LLM scoring drift. |
 | [`docs/THC_LEADERBOARD.md`](docs/THC_LEADERBOARD.md) | Leaderboard concept and anti-abuse rules. |
@@ -107,7 +110,21 @@ Use [`skills/THC_Check/SKILL.md`](skills/THC_Check/SKILL.md) as the local audit
 skill. A local check can help gather evidence and identify level caps, but it is
 not the same as an independent public score.
 
+The recommended structured local benchmark path is THC-BOT, the THC Benchmark
+Operating Test. THC-BOT stores one run per reviewed revision and exposes the
+evidence, caps, hidden-trust findings, next actions, uncertainty, and provenance
+behind the local recommendation.
+
+`docs/thc/LOCAL_CHECK.md` should summarize the latest local posture and point to
+the latest THC-BOT run. The THC-BOT run is the structured scoring package.
+
+THC-BOT works for public, private, internal, and closed-source projects as a
+local benchmark. Public leaderboard validation is the stronger external trust
+path for public repositories because cited evidence still needs independent
+verification.
+
 See [`docs/THC_LOCAL_AND_PUBLIC_REVIEW.md`](docs/THC_LOCAL_AND_PUBLIC_REVIEW.md).
+See [`docs/THC_BOT.md`](docs/THC_BOT.md).
 
 ## Public Leaderboard
 

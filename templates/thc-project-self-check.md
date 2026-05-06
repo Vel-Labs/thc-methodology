@@ -12,7 +12,10 @@ Reviewed Revision:
 Precheck Worktree Clean: Yes / No
 Generated At:
 Artifact Path: docs/thc/LOCAL_CHECK.md
-Provenance Path: docs/thc/LOCAL_CHECK.provenance.json
+THC-BOT Ledger: docs/thc/THC-BOT.md
+Latest THC-BOT Run:
+THC-BOT Contract:
+THC-BOT Provenance:
 Artifact Commit:
 
 > This is a local preparation artifact. Do not hand-edit it to improve the
@@ -80,6 +83,7 @@ What level do you honestly think the project deserves?
 Local THC Score:
 Level Caps Applied:
 Confidence:
+THC-BOT Validation State:
 Report SHA256:
 
 ## Public Review Handoff

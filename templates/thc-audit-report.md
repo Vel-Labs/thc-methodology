@@ -10,6 +10,8 @@ Reviewer:
 Review Type: Local THC Check / Spot Check / Full Review / Self-Assessment / Peer Review / Automated Public Review
 Reviewed Revision:
 Rubric Version:
+THC-BOT Run:
+THC-BOT Validation State:
 
 ## Summary
 
@@ -18,6 +20,7 @@ Review Label: Local THC Check / Self-Assessed / Automated Public Review / Peer R
 Total Score:  
 Level Caps Applied:  
 Confidence:
+THC-BOT Contract Version:
 
 ## One-Sentence Assessment
 

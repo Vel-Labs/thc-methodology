@@ -14,6 +14,9 @@ Requested Level: THC-0 / THC-1 / THC-2 / THC-3 / THC-4 / THC-5
 Review Label Requested: Local THC Check / Self-Assessed / Automated Public Review / Peer Reviewed / Maintainer Reviewed / Vel Labs Reviewed
 Local THC Check Available: Yes / No
 Local THC Check Report Link:
+THC-BOT Available: Yes / No
+Latest THC-BOT Run:
+THC-BOT Contract Version:
 
 ## Project Summary
 
@@ -71,14 +74,17 @@ List what still requires insider knowledge.
 
 Add links to files, commits, docs, or artifacts.
 
-## Local Check Notes
+## Local Check And THC-BOT Notes
 
-If a local THC check exists, list what the public reviewer should verify
-independently.
+If a local THC check or THC-BOT package exists, list what the public reviewer
+should verify independently.
 
 - Reviewed revision:
 - Local score:
 - Local caps applied:
+- THC-BOT validation state:
+- THC-BOT slices that are complete:
+- THC-BOT slices that are partial or invalid:
 - Claims that need fresh inspection:
 
 ## Reviewer Notes

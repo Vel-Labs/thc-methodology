@@ -24,6 +24,8 @@ This repository is organized into layers.
 | `docs/THC_EVALUATION_LENS.md` | Audit questions and review posture. |
 | `docs/THC_SCORECARD.md` | Rubric and scoring model. |
 | `docs/THC_LEVELS.md` | THC-0 through THC-5 maturity bands. |
+| `docs/THC_BOT.md` | Structured local THC Benchmark Operating Test artifact package. |
+| `docs/THC_BOT_CONTRACT.md` | Human-readable THC-BOT artifact contract. |
 | `docs/THC_CASE_STUDY_DISCIPLINE.md` | How to avoid survivorship bias. |
 | `docs/THC_BADGES.md` | Badge language and examples. |
 | `docs/THC_PROJECT_STRUCTURE.md` | Recommended repo structure. |
@@ -37,6 +39,7 @@ This repository is organized into layers.
 | File | Purpose |
 |---|---|
 | `templates/thc-audit-report.md` | Audit report template. |
+| `templates/thc-bot-report.md` | THC-BOT run report template. |
 | `templates/thc-project-self-check.md` | Self-check template. |
 | `templates/thc-evaluation-submission.md` | Public submission template. |
 | `templates/thc-case-study.md` | Case study template. |

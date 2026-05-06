@@ -78,11 +78,20 @@ Projects that run `THC_Check` should keep local THC review artifacts in:
 docs/thc/
   README.md
   LOCAL_CHECK.md
+  THC-BOT.md
+  THC-BOT.history.json
+  runs/
 ```
 
-This path is meant for public-review discovery. `LOCAL_CHECK.md` is the local
-baseline report. `README.md` should warn maintainers not to hand-edit generated
-reports to improve a score; rerun the check after project changes instead.
+This path is meant for public-review discovery.
+
+`LOCAL_CHECK.md` is the local executive summary and readiness checklist.
+
+`THC-BOT.md`, `THC-BOT.history.json`, and `runs/` are the structured THC
+Benchmark Operating Test ledger and run artifacts.
+
+`README.md` should warn maintainers not to hand-edit generated reports to
+improve a score; rerun the check after project changes instead.
 
 ## Layer Responsibilities
 
