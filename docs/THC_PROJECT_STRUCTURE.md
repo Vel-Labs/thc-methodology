@@ -80,6 +80,7 @@ docs/thc/
   LOCAL_CHECK.md
   THC-BOT.md
   THC-BOT.history.json
+  THC-BOT.html
   runs/
 ```
 
@@ -89,6 +90,9 @@ This path is meant for public-review discovery.
 
 `THC-BOT.md`, `THC-BOT.history.json`, and `runs/` are the structured THC
 Benchmark Operating Test ledger and run artifacts.
+
+`THC-BOT.html` is an optional rendered operator view generated from THC-BOT
+artifacts. It should not be treated as scoring truth.
 
 `README.md` should warn maintainers not to hand-edit generated reports to
 improve a score; rerun the check after project changes instead.

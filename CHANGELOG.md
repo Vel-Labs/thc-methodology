@@ -10,6 +10,8 @@ Added:
   boundary, run history model, slice layout, and required contract fields.
 - `templates/thc-bot-report.md` as the human-readable report template for a
   THC-BOT run.
+- `skills/THC_BOT_Visualizer/` as an optional local HTML readout skill for
+  existing THC-BOT artifacts.
 - leaderboard handshake validation guidance for treating THC-BOT artifacts as
   input, not public truth.
 - MIT license and attribution notice.

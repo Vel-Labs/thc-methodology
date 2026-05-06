@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>THC-BOT Visualizer</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f8f5;
+      --panel: #ffffff;
+      --ink: #18201b;
+      --muted: #5d6a61;
+      --line: #d8ded4;
+      --truth: #246b62;
+      --hardening: #8f4f19;
+      --clarity: #425d93;
+      --risk: #a33b3b;
+      --warn: #b7791f;
+      --ok: #2f7a4f;
+      --unknown: #687076;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 20px 48px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 30px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-width: 0;
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+
+    .metric {
+      display: grid;
+      gap: 4px;
+    }
+
+    .metric strong {
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #f9faf8;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .badge.ok { color: var(--ok); border-color: #b7d8c4; background: #eef8f1; }
+    .badge.warn { color: var(--warn); border-color: #e5c894; background: #fff8e8; }
+    .badge.risk { color: var(--risk); border-color: #e4b1b1; background: #fff0f0; }
+    .badge.unknown { color: var(--unknown); }
+
+    .stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: left;
+      vertical-align: top;
+      word-break: break-word;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    svg {
+      width: 100%;
+      min-height: 230px;
+      display: block;
+    }
+
+    .bar {
+      display: grid;
+      grid-template-columns: 100px 1fr auto;
+      align-items: center;
+      gap: 10px;
+      margin: 8px 0;
+    }
+
+    .bar-track {
+      height: 10px;
+      background: #edf0ea;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--truth);
+    }
+
+    a {
+      color: var(--clarity);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 840px) {
+      header,
+      .grid {
+        display: block;
+      }
+
+      .panel {
+        margin-bottom: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>THC-BOT Visualizer</h1>
+        <p class="muted">Rendered view of local THC Benchmark Operating Test artifacts. The JSON and Markdown artifacts remain canonical.</p>
+      </div>
+      <div class="stack" id="headerBadges"></div>
+    </header>
+
+    <section class="grid">
+      <div class="panel span-4 metric">
+        <span class="muted">Latest Level</span>
+        <strong id="latestLevel">Unknown</strong>
+        <span id="latestRevision" class="muted"></span>
+      </div>
+      <div class="panel span-4 metric">
+        <span class="muted">Latest Score</span>
+        <strong id="latestScore">--</strong>
+        <span id="latestConfidence" class="muted"></span>
+      </div>
+      <div class="panel span-4 metric">
+        <span class="muted">Public Readiness</span>
+        <strong id="publicReadiness">Unknown</strong>
+        <span id="validationState" class="muted"></span>
+      </div>
+
+      <div class="panel span-8">
+        <h2>Score History</h2>
+        <div id="scoreChart"></div>
+      </div>
+
+      <div class="panel span-4">
+        <h2>Latest Run Links</h2>
+        <div id="latestLinks" class="stack"></div>
+      </div>
+
+      <div class="panel span-12">
+        <h2>Slice Status Matrix</h2>
+        <div id="sliceMatrix"></div>
+      </div>
+
+      <div class="panel span-6">
+        <h2>Recurring Caps</h2>
+        <div id="capsTrend"></div>
+      </div>
+
+      <div class="panel span-6">
+        <h2>Hidden Trust Trend</h2>
+        <div id="hiddenTrustTrend"></div>
+      </div>
+
+      <div class="panel span-12">
+        <h2>Run History</h2>
+        <div id="runHistory"></div>
+      </div>
+
+      <div class="panel span-12">
+        <h2>Source And Uncertainty</h2>
+        <div id="uncertainty"></div>
+      </div>
+    </section>
+  </main>
+
+  <script id="thc-bot-data" type="application/json">
+  __THC_BOT_DATA__
+  </script>
+
+  <script>
+    const raw = document.getElementById('thc-bot-data').textContent.trim();
+    const data = raw && !raw.includes('__THC_BOT_DATA__')
+      ? JSON.parse(raw)
+      : { generatedAt: '', source: {}, runs: [], uncertainty: ['No embedded THC-BOT data found.'] };
+
+    const runs = [...(data.runs || [])].sort((a, b) => String(a.generatedAt).localeCompare(String(b.generatedAt)));
+    const latest = runs[runs.length - 1] || {};
+    const sliceKeys = ['overview', 'evidence', 'localArtifacts', 'capsApplied', 'hiddenTrust', 'nextActions', 'uncertainty'];
+
+    const text = (value, fallback = 'Unknown') => {
+      if (value === null || value === undefined || value === '') return fallback;
+      return String(value);
+    };
+
+    const badgeClass = (value) => {
+      const normalized = text(value, '').toLowerCase();
+      if (['complete', 'clean', 'high', 'ready', 'provided'].some((term) => normalized.includes(term))) return 'ok';
+      if (['partial', 'medium', 'needs', 'stale'].some((term) => normalized.includes(term))) return 'warn';
+      if (['invalid', 'critical', 'dirty', 'risk'].some((term) => normalized.includes(term))) return 'risk';
+      return 'unknown';
+    };
+
+    const badge = (value) => `<span class="badge ${badgeClass(value)}">${text(value)}</span>`;
+    const escapeHtml = (value) => text(value, '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    })[char]);
+
+    const link = (label, href) => href ? `<a class="badge" href="${escapeHtml(href)}">${escapeHtml(label)}</a>` : '';
+
+    document.getElementById('latestLevel').textContent = text(latest.recommendedLevel);
+    document.getElementById('latestScore').textContent = latest.totalScore === undefined ? '--' : String(latest.totalScore);
+    document.getElementById('latestRevision').textContent = `Revision: ${text(latest.reviewedRevision)}`;
+    document.getElementById('latestConfidence').textContent = `Confidence: ${text(latest.confidence)}`;
+    document.getElementById('publicReadiness').textContent = text(latest.publicReadiness);
+    document.getElementById('validationState').textContent = `Validation: ${text(latest.validationState)}`;
+    document.getElementById('headerBadges').innerHTML = [
+      badge(latest.validationState),
+      badge(latest.confidence),
+      `<span class="badge">Generated ${escapeHtml(text(data.generatedAt))}</span>`
+    ].join('');
+
+    document.getElementById('latestLinks').innerHTML = [
+      link('Report', latest.paths && latest.paths.report),
+      link('Contract', latest.paths && latest.paths.contract),
+      link('Provenance', latest.paths && latest.paths.provenance)
+    ].filter(Boolean).join('') || '<p class="muted">No run links available.</p>';
+
+    function renderScoreChart() {
+      if (!runs.length) return '<p class="muted">No runs available.</p>';
+      const width = 760;
+      const height = 240;
+      const pad = 34;
+      const points = runs.map((run, index) => {
+        const score = Number(run.totalScore || 0);
+        const x = runs.length === 1 ? width / 2 : pad + (index * (width - pad * 2)) / (runs.length - 1);
+        const y = height - pad - (Math.max(0, Math.min(100, score)) * (height - pad * 2)) / 100;
+        return { x, y, score, label: run.generatedAt || run.runId || `Run ${index + 1}` };
+      });
+      const path = points.map((point, index) => `${index ? 'L' : 'M'} ${point.x} ${point.y}`).join(' ');
+      const circles = points.map((point) => `<circle cx="${point.x}" cy="${point.y}" r="4"><title>${escapeHtml(point.label)}: ${point.score}</title></circle>`).join('');
+      const labels = [0, 25, 50, 75, 100].map((value) => {
+        const y = height - pad - (value * (height - pad * 2)) / 100;
+        return `<g><line x1="${pad}" x2="${width - pad}" y1="${y}" y2="${y}" stroke="#e4e8df"/><text x="4" y="${y + 4}" fill="#5d6a61" font-size="11">${value}</text></g>`;
+      }).join('');
+      return `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="THC-BOT score history">${labels}<path d="${path}" fill="none" stroke="#246b62" stroke-width="3"/>${circles}</svg>`;
+    }
+
+    function renderSliceMatrix() {
+      if (!runs.length) return '<p class="muted">No slice data available.</p>';
+      const header = `<tr><th>Run</th>${sliceKeys.map((key) => `<th>${escapeHtml(key)}</th>`).join('')}</tr>`;
+      const rows = runs.map((run) => {
+        const cells = sliceKeys.map((key) => `<td>${badge(run.slices && run.slices[key])}</td>`).join('');
+        return `<tr><td>${escapeHtml(run.runId || run.generatedAt)}</td>${cells}</tr>`;
+      }).join('');
+      return `<table>${header}${rows}</table>`;
+    }
+
+    function renderCapsTrend() {
+      const counts = {};
+      runs.forEach((run) => (run.capsApplied || []).forEach((cap) => {
+        counts[cap] = (counts[cap] || 0) + 1;
+      }));
+      const entries = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      if (!entries.length) return '<p class="muted">No caps recorded.</p>';
+      const max = Math.max(...entries.map((entry) => entry[1]));
+      return entries.map(([cap, count]) => `
+        <div class="bar">
+          <span>${escapeHtml(cap)}</span>
+          <span class="bar-track"><span class="bar-fill" style="width:${(count / max) * 100}%"></span></span>
+          <span class="muted">${count}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderHiddenTrustTrend() {
+      if (!runs.length) return '<p class="muted">No hidden-trust data available.</p>';
+      const rows = runs.map((run) => {
+        const counts = run.hiddenTrustCounts || {};
+        return `<tr>
+          <td>${escapeHtml(run.runId || run.generatedAt)}</td>
+          <td>${counts.critical || 0}</td>
+          <td>${counts.high || 0}</td>
+          <td>${counts.medium || 0}</td>
+          <td>${counts.low || 0}</td>
+        </tr>`;
+      }).join('');
+      return `<table><tr><th>Run</th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th></tr>${rows}</table>`;
+    }
+
+    function renderRunHistory() {
+      if (!runs.length) return '<p class="muted">No runs available.</p>';
+      const rows = runs.map((run) => `<tr>
+        <td>${escapeHtml(run.generatedAt || '')}</td>
+        <td>${escapeHtml(run.runId || '')}</td>
+        <td>${escapeHtml(run.reviewedRevision || '')}</td>
+        <td>${escapeHtml(run.recommendedLevel || '')}</td>
+        <td>${escapeHtml(run.totalScore === undefined ? '' : run.totalScore)}</td>
+        <td>${badge(run.validationState)}</td>
+        <td>${escapeHtml(run.publicReadiness || '')}</td>
+      </tr>`).join('');
+      return `<table><tr><th>Date</th><th>Run</th><th>Revision</th><th>Level</th><th>Score</th><th>Validation</th><th>Public Readiness</th></tr>${rows}</table>`;
+    }
+
+    function renderUncertainty() {
+      const notes = [
+        ...(data.uncertainty || []),
+        ...runs.flatMap((run) => (run.uncertaintyNotes || []).map((note) => `${run.runId || 'run'}: ${note}`))
+      ];
+      const source = data.source || {};
+      const sourceHtml = `<p class="muted">History: ${escapeHtml(source.historyPath || 'unknown')} · Runs: ${escapeHtml(source.runRoot || 'unknown')}</p>`;
+      if (!notes.length) return `${sourceHtml}<p>No uncertainty notes recorded.</p>`;
+      return `${sourceHtml}<ul>${notes.map((note) => `<li>${escapeHtml(note)}</li>`).join('')}</ul>`;
+    }
+
+    document.getElementById('scoreChart').innerHTML = renderScoreChart();
+    document.getElementById('sliceMatrix').innerHTML = renderSliceMatrix();
+    document.getElementById('capsTrend').innerHTML = renderCapsTrend();
+    document.getElementById('hiddenTrustTrend').innerHTML = renderHiddenTrustTrend();
+    document.getElementById('runHistory').innerHTML = renderRunHistory();
+    document.getElementById('uncertainty').innerHTML = renderUncertainty();
+  </script>
+</body>
+</html>

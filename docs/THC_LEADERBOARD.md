@@ -97,6 +97,10 @@ verify:
 The public score should come from verified public evidence, not from the local
 THC-BOT score.
 
+If a project includes `docs/thc/THC-BOT.html`, treat it as an operator readout.
+Leaderboard tooling should verify the canonical JSON and Markdown artifacts
+instead of trusting the rendered HTML.
+
 ## Automated Grading
 
 An automated grader may inspect:

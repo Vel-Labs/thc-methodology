@@ -26,6 +26,7 @@ docs/thc/
   LOCAL_CHECK.md
   THC-BOT.md
   THC-BOT.history.json
+  THC-BOT.html
   runs/
     <run-id>/
       THC-BOT.md
@@ -64,6 +65,10 @@ may use them as a map to evidence, then independently verify the cited files.
 `docs/thc/LOCAL_CHECK.md` is the executive summary and readiness checklist.
 
 `docs/thc/THC-BOT.md` is the run ledger.
+
+`docs/thc/THC-BOT.html` is an optional visualizer output generated from existing
+THC-BOT artifacts. `THC_Check` may mention it, but should not require it for a
+complete score.
 
 Each `docs/thc/runs/<run-id>/` folder is one structured THC Benchmark Operating
 Test run for one reviewed revision.
@@ -192,8 +197,9 @@ runs against uncommitted files, a public grader cannot cleanly verify what was
 actually reviewed.
 
 Generating `docs/thc/LOCAL_CHECK.md`, `docs/thc/THC-BOT.md`,
-`docs/thc/THC-BOT.history.json`, and a new `docs/thc/runs/<run-id>/` folder
-will make the worktree dirty after the review. That is expected.
+`docs/thc/THC-BOT.history.json`, optional `docs/thc/THC-BOT.html`, and a new
+`docs/thc/runs/<run-id>/` folder will make the worktree dirty after the review.
+That is expected.
 
 After generation, attempt to commit only the THC artifacts:
 
@@ -202,6 +208,7 @@ docs/thc/README.md
 docs/thc/LOCAL_CHECK.md
 docs/thc/THC-BOT.md
 docs/thc/THC-BOT.history.json
+docs/thc/THC-BOT.html
 docs/thc/runs/<run-id>/
 ```
 
@@ -258,11 +265,13 @@ Accept any of:
 18. Write `docs/thc/runs/<run-id>/THC-BOT.provenance.json`.
 19. Write the required `docs/thc/runs/<run-id>/slices/*.json` files.
 20. Ensure `docs/thc/README.md` explains the artifact contract and disclaimer.
-21. Verify the only changed paths are under `docs/thc/`.
-22. Commit only `docs/thc/README.md`, `docs/thc/LOCAL_CHECK.md`,
+21. If requested, render `docs/thc/THC-BOT.html` using `THC_BOT_Visualizer`.
+22. Verify the only changed paths are under `docs/thc/`.
+23. Commit only `docs/thc/README.md`, `docs/thc/LOCAL_CHECK.md`,
     `docs/thc/THC-BOT.md`, `docs/thc/THC-BOT.history.json`, and
-    `docs/thc/runs/<run-id>/` with the standard message.
-23. Record the artifact commit SHA in the provenance file and report, or record
+    optional `docs/thc/THC-BOT.html`, and `docs/thc/runs/<run-id>/` with the
+    standard message.
+24. Record the artifact commit SHA in the provenance file and report, or record
     why the commit could not be created.
 
 ## Output Format

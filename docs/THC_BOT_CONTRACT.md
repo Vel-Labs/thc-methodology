@@ -82,6 +82,7 @@ docs/thc/
   LOCAL_CHECK.md
   THC-BOT.md
   THC-BOT.history.json
+  THC-BOT.html
   runs/
 ```
 
@@ -90,6 +91,10 @@ docs/thc/
 `THC-BOT.md` is the human-readable run ledger.
 
 `THC-BOT.history.json` is the machine-readable run ledger.
+
+`THC-BOT.html` is an optional rendered view. It is not part of the canonical
+contract and should be regenerated from the ledger, run contracts, provenance,
+and slices.
 
 ## THC-BOT.contract.json
 

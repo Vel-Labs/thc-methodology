@@ -123,6 +123,11 @@ local benchmark. Public leaderboard validation is the stronger external trust
 path for public repositories because cited evidence still needs independent
 verification.
 
+Use [`skills/THC_BOT_Visualizer/SKILL.md`](skills/THC_BOT_Visualizer/SKILL.md)
+when an operator wants a local HTML readout of existing THC-BOT artifacts. The
+HTML view is optional and should not replace the contract, provenance, slices,
+or public verification.
+
 See [`docs/THC_LOCAL_AND_PUBLIC_REVIEW.md`](docs/THC_LOCAL_AND_PUBLIC_REVIEW.md).
 See [`docs/THC_BOT.md`](docs/THC_BOT.md).
 

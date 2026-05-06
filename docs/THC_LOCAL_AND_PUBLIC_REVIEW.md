@@ -53,6 +53,7 @@ docs/thc/
   LOCAL_CHECK.md
   THC-BOT.md
   THC-BOT.history.json
+  THC-BOT.html
   runs/
     2026-05-05_project_0.1.0_abc1234/
       THC-BOT.md
@@ -91,6 +92,11 @@ complete score.
 precheck, generation time, report hash, evidence file hashes, commands run,
 rubric version, contract version, caps applied, score, artifact commit if one
 exists, and uncertainty.
+
+`THC-BOT.html` is optional. It may render the ledger, score history, slice
+status, caps, hidden-trust trends, and public-readiness status for local
+operators. It should be regenerated from canonical THC-BOT artifacts and should
+not be treated as scoring truth.
 
 `docs/thc/README.md` should explain that the folder is for THC review artifacts
 and should not be hand-edited to improve a score. If the project changes, the

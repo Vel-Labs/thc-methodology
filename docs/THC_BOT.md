@@ -84,6 +84,7 @@ docs/thc/
   LOCAL_CHECK.md
   THC-BOT.md
   THC-BOT.history.json
+  THC-BOT.html
   runs/
     2026-05-05_project_0.1.0_abc1234/
       THC-BOT.md
@@ -105,6 +106,10 @@ structured contract.
 
 `THC-BOT.md` at the root should aggregate run history. Each row should point to
 one run and summarize the status of each slice.
+
+`THC-BOT.html` is an optional rendered view for operators. It should be
+generated from existing THC-BOT artifacts and should not become a source of
+truth.
 
 Each run folder should be treated as immutable by convention. New assessments
 create new run folders. Corrections should create a new run or a clearly
@@ -150,6 +155,32 @@ The root `docs/thc/THC-BOT.md` should aggregate the runs:
 | 2026-05-05 | 0.1.0 | `abc1234` | complete | partial | complete | applied | high | 3 open | medium | needs public verification |
 
 The table is a navigation layer. The run folder is the source for that run.
+
+## Optional Visualizer
+
+A project may render THC-BOT artifacts into:
+
+```txt
+docs/thc/THC-BOT.html
+```
+
+The visualizer should show:
+
+- latest level, score, confidence, and validation state
+- score history over time
+- slice status matrix
+- recurring caps
+- hidden-trust trend
+- next-action counts
+- public-readiness status
+- links to the latest report, contract, provenance, and slices
+
+The visualizer is a local operator readout. It is not required for a complete
+THC-BOT score, and it does not replace the contract, provenance, slices, or run
+reports.
+
+Public tooling may ignore the HTML and read the canonical JSON and Markdown
+artifacts directly.
 
 ## Required Report Fields
 
