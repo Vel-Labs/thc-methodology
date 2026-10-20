@@ -68,6 +68,12 @@ THC can be used for:
 | [`templates/thc-evaluation-submission.md`](templates/thc-evaluation-submission.md) | Submission template for project evaluations. |
 | [`docs/THC_LOCAL_AND_PUBLIC_REVIEW.md`](docs/THC_LOCAL_AND_PUBLIC_REVIEW.md) | Local checks, public scores, and LLM scoring drift. |
 | [`docs/THC_LEADERBOARD.md`](docs/THC_LEADERBOARD.md) | Leaderboard concept and anti-abuse rules. |
+| [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md) | Source-backed repository context and evidence boundaries. |
+
+Edit the structured source block in `PROJECT_CONTEXT.md`, then regenerate its
+tables with `python3 scripts/project_context.py "$PWD/PROJECT_CONTEXT.md"`.
+Rendering does not verify source pins, audit the methodology, or establish
+acceptance; validate source pins separately.
 
 ## THC Level
 
