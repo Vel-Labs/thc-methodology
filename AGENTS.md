@@ -53,7 +53,9 @@ Avoid:
 
 ## Required Questions For New Content
 
-Every substantial addition should answer at least three of these:
+Use these questions when changing methodology claims, doctrine or evaluation.
+Address the questions relevant to the claim and risk; ordinary formatting or
+example corrections need no separate rubric artifact:
 
 1. What is the source of truth?
 2. What assumption is being surfaced?
